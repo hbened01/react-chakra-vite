@@ -26,8 +26,8 @@ export default function LoginForm() {
   const inputEmail = useRef(null);
   const inputPasswd = useRef(null);
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
       await userLogin(userData);
@@ -82,7 +82,7 @@ export default function LoginForm() {
                     placeholder="test@test.com"
                     size="lg"
                     ref={inputEmail}
-                    onChange={(event) => setUserData({ ...userData, email:event?.currentTarget?.value })}
+                    onChange={(e) => setUserData({ ...userData, email: e?.currentTarget?.value })}
                   />
                 </FormControl>
                 <FormControl isRequired mt={6}>
@@ -93,8 +93,8 @@ export default function LoginForm() {
                       placeholder="*******"
                       size="lg"
                       ref={inputPasswd}
-                      onChange={(event) =>
-                        setUserData({ ...userData, password: event?.currentTarget?.value })
+                      onChange={(e) =>
+                        setUserData({ ...userData, password: e?.currentTarget?.value })
                       }
                     />
                     <InputRightElement width="3rem">
