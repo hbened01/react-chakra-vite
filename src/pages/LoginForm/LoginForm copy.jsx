@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Box,
@@ -18,30 +18,27 @@ import { ErrorMessage } from "./../../components";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 export default function LoginForm() {
-  const [userData, setUserData] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const inputEmail = useRef(null);
-  const inputPasswd = useRef(null);
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      await userLogin(userData);
+      await userLogin({ email, password });
       setIsLoggedIn(true);
       setIsLoading(false);
       setShowPassword(false);
     } catch (error) {
       setError("Invalid username or password");
       setIsLoading(false);
+      setEmail("");
+      setPassword("");
       setShowPassword(false);
-      setUserData({ email: "", password: "" });
-      // RESET PASSWORD AND EMAIL IN INPUTS:
-      inputEmail.current.value = "";
-      inputPasswd.current.value = "";
     }
   };
   return (
@@ -56,9 +53,9 @@ export default function LoginForm() {
       >
         {isLoggedIn ? (
           <Box textAlign="center">
-            <Text>{userData?.email} logged in!</Text>
+            <Text>{email} logged in!</Text>
             <Button
-              colorScheme="orange"
+              variantColor="orange"
               variant="outline"
               width="full"
               mt={4}
@@ -81,8 +78,7 @@ export default function LoginForm() {
                     type="email"
                     placeholder="test@test.com"
                     size="lg"
-                    ref={inputEmail}
-                    onChange={(event) => setUserData({ ...userData, email:event?.currentTarget?.value })}
+                    onChange={(event) => setEmail(event.currentTarget.value)}
                   />
                 </FormControl>
                 <FormControl isRequired mt={6}>
@@ -92,9 +88,8 @@ export default function LoginForm() {
                       type={showPassword ? "text" : "password"}
                       placeholder="*******"
                       size="lg"
-                      ref={inputPasswd}
                       onChange={(event) =>
-                        setUserData({ ...userData, password: event?.currentTarget?.value })
+                        setPassword(event.currentTarget.value)
                       }
                     />
                     <InputRightElement width="3rem">
