@@ -23,8 +23,8 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const inputEmail = useRef(null);
-  const inputPasswd = useRef(null);
+  // const inputEmail = useRef(null);
+  // const inputPasswd = useRef(null);
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,13 +39,13 @@ export default function LoginForm() {
       setIsLoading(false);
       setShowPassword(false);
       setUserData({ email: "", password: "" });
-      // RESET PASSWORD AND EMAIL IN INPUTS:
-      inputEmail.current.value = "";
-      inputPasswd.current.value = "";
+      // RESET PASSWORD AND EMAIL IN INPUTS BY REF OR BY VALUE IN INPUTS:
+      // inputEmail.current.value = "";
+      // inputPasswd.current.value = "";
     }
   };
   return (
-    <Flex width="full" align="center" justifyContent="center">
+    <Flex py="15vh" width="full" height="full" align="center" justifyContent="center">
       <Box
         p={8}
         w="40vw"
@@ -79,9 +79,10 @@ export default function LoginForm() {
                   <FormLabel>Email</FormLabel>
                   <Input
                     type="email"
+                    value={userData?.email}
                     placeholder="test@test.com"
                     size="lg"
-                    ref={inputEmail}
+                    // ref={inputEmail}
                     onChange={(e) => setUserData({ ...userData, email: e?.currentTarget?.value })}
                   />
                 </FormControl>
@@ -90,9 +91,10 @@ export default function LoginForm() {
                   <InputGroup>
                     <Input
                       type={showPassword ? "text" : "password"}
+                      value={userData?.password}
                       placeholder="*******"
                       size="lg"
-                      ref={inputPasswd}
+                      // ref={inputPasswd}
                       onChange={(e) =>
                         setUserData({ ...userData, password: e?.currentTarget?.value })
                       }
